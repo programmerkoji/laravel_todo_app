@@ -32,10 +32,6 @@
 <div class="container">
     <table>
         <tr>
-            <th>ID</th>
-            <td>{{ $task->id }}</td>
-        </tr>
-        <tr>
             <th>タスク</th>
             <td>{{ $task->name }}</td>
         </tr>

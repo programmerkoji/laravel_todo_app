@@ -19,8 +19,11 @@ use App\Http\Controllers\TaskController;
 // });
 
 Route::get('/', [TaskController::class, 'index'])->name('tasks.index');
-Route::get('/{id}', [TaskController::class, 'show'])->name('tasks.show');
-
+Route::get('/{id}', [TaskController::class, 'show'])
+    ->name('tasks.show')
+    ->where('id', '[0-9]+');
+Route::get('/create', [TaskController::class, 'create'])->name('tasks.create');
+Route::post('/store', [TaskController::class, 'store'])->name('tasks.store');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
