@@ -14,28 +14,32 @@ use App\Http\Controllers\TaskController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
 
-Route::get('/', [TaskController::class, 'index'])->name('tasks.index');
-Route::get('/{id}', [TaskController::class, 'show'])
-    ->name('tasks.show')
-    ->where('id', '[0-9]+');
-Route::get('/create', [TaskController::class, 'create'])->name('tasks.create');
-Route::post('/store', [TaskController::class, 'store'])->name('tasks.store');
-Route::get('/edit/{id}', [TaskController::class, 'edit'])
-    ->name('tasks.edit')
-    ->where('id', '[0-9]+');
-Route::post('/update/{id}', [TaskController::class, 'update'])
-    ->name('tasks.update')
-    ->where('id', '[0-9]+');
-Route::delete('/delete/{id}', [TaskController::class, 'destroy'])
-    ->name('tasks.delete')
-    ->where('id', '[0-9]+');
+// Route::get('/', [TaskController::class, 'index'])->name('tasks.index');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::group(['prefix' => 'tasks', 'middleware' => 'auth'], function() {
+    Route::get('/', [TaskController::class, 'index'])->name('tasks.index');
+    Route::get('/{id}', [TaskController::class, 'show'])
+        ->name('tasks.show')
+        ->where('id', '[0-9]+');
+    Route::get('create', [TaskController::class, 'create'])->name('tasks.create');
+    Route::post('/store', [TaskController::class, 'store'])->name('tasks.store');
+    Route::get('edit/{id}', [TaskController::class, 'edit'])
+        ->name('tasks.edit')
+        ->where('id', '[0-9]+');
+    Route::post('update/{id}', [TaskController::class, 'update'])
+        ->name('tasks.update')
+        ->where('id', '[0-9]+');
+    Route::delete('delete/{id}', [TaskController::class, 'destroy'])
+        ->name('tasks.delete')
+        ->where('id', '[0-9]+');
+});
+
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
