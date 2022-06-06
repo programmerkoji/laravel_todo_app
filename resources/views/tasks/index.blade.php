@@ -1,77 +1,61 @@
-<x-guest-layout>
-<style>
-    h1 {
-        text-align: center;
-        padding: 30px;
-    }
-    .container {
-        width: 80%;
-        margin: 0 auto;
-    }
-    .task__create {
-        text-align: right;
-        padding-bottom: 10px;
-    }
-    table {
-        border-spacing: 0;
-        border-collapse: collapse;
-        border-bottom: 1px solid #aaa;
-        color: #555;
-        width: 100%;
-    }
-    th {
-        border-top: 1px solid #aaa;
-        background-color: #f5f5f5;
-        padding: 10px 0 10px 6px;
-        text-align: center;
-    }
-    td {
-        border-top: 1px solid #aaa;
-        padding: 10px 0 10px 6px;
-        text-align: center;
-    }
-    a {
-        margin-right: 20px;
-    }
-</style>
-<h1>タスク一覧</h1>
-<div class="container">
-    <div class="task__create">
-        <a href="{{ route('tasks.create') }}">＋タスクを追加する</a>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            タスク一覧
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <div class="mb-4">
+                        <a href="{{ route('tasks.create') }}" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">＋タスクを追加</a>
+                    </div>
+                    <table class="w-full border-collapse border">
+                        <thead>
+                          <tr class="bg-slate-50">
+                            <th class="w-2/3 px-4 py-2 border">タスク</th>
+                            <th class="w-1/3 px-4 py-2 border">アクション</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        @foreach ($tasks as $task)
+                          <tr>
+                            <td class="border px-4 py-2">{{ $task->name }}</td>
+                            <td class="border px-4 py-2 underline text-blue-600">
+                                <div class="flex justify-around">
+                                    <a href="{{ route('tasks.show', ['id' => $task->id]) }}">詳細</a>
+                                    <a href="{{ route('tasks.edit', ['id' => $task->id]) }}">編集</a>
+                                    <form action="{{ route('tasks.delete', ['id' => $task->id]) }}" method="post" class="delete_post">
+                                        @method('delete')
+                                        @csrf
+                                        <button class="underline text-rose-600">削除</button>
+                                    </form>
+                                </div>
+                            </td>
+                          </tr>
+                        @endforeach
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
     </div>
-    <table>
-        <tr>
-            <th>タスク</th>
-            <th>アクション</th>
-        </tr>
-        @foreach ($tasks as $task)
-        <tr>
-            <td>{{ $task->name }}</td>
-            <td class="flex">
-                <a href="{{ route('tasks.show', ['id' => $task->id]) }}">詳細</a>
-                <a href="{{ route('tasks.edit', ['id' => $task->id]) }}">編集</a>
-                <form action="{{ route('tasks.delete', ['id' => $task->id]) }}" method="post" id="delete_post">
-                    @method('delete')
-                    @csrf
-                    <button>削除</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </table>
-</div>
-<script>
-    'use strict';
-    {
-        document.getElementById('delete_post').addEventListener('submit', e => {
-            e.preventDefault();
+    <script>
+        'use strict';
+        {
+            document.querySelectorAll('.delete_post').forEach(form => {
+                form.addEventListener('submit', e => {
+                    e.preventDefault();
 
-            if (!confirm('本当に削除してもよいですか？')) {
-                return;
-            }
+                    if (!confirm('Sure to delete?')) {
+                        return;
+                    }
 
-            e.target.submit();
-        });
-    }
-</script>
-</x-guest-layout>
+                    form.submit();
+                })
+            });
+        }
+    </script>
+</x-app-layout>
