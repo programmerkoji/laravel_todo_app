@@ -49,7 +49,7 @@
                 form.addEventListener('submit', e => {
                     e.preventDefault();
 
-                    if (!confirm('Sure to delete?')) {
+                    if (!confirm('本当に削除しますか？')) {
                         return;
                     }
 
