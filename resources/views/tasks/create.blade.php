@@ -43,7 +43,8 @@
             <label for="content">タスク内容<span>(必須)</span></label><br>
             <textarea rows="5" name="content" placeholder="タスク内容を具体的に書きましょう" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out">{{ old('content') }}</textarea>
         </div>
-        <div class="text-center">
+        <div class="flex justify-center gap-4">
+            <button type="button" onclick="location.href='/'" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">戻る</button>
             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">追加する</button>
         </div>
     </form>

@@ -56,8 +56,26 @@
             <a href="{{ route('tasks.edit', ['id' => $task->id]) }}">編集する</a>
         </div>
         <div class="link__delete">
-            <a href="">削除する</a>
+            <form action="{{ route('tasks.delete', ['id' => $task->id]) }}" method="post" id="delete_post">
+                @method('delete')
+                @csrf
+                <button>削除</button>
+            </form>
         </div>
     </div>
 </div>
+<script>
+    'use strict';
+    {
+        document.getElementById('delete_post').addEventListener('submit', e => {
+            e.preventDefault();
+
+            if (!confirm('本当に削除してもよいですか？')) {
+                return;
+            }
+
+            e.target.submit();
+        });
+    }
+</script>
 </x-guest-layout>

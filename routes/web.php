@@ -30,6 +30,9 @@ Route::get('/edit/{id}', [TaskController::class, 'edit'])
 Route::post('/update/{id}', [TaskController::class, 'update'])
     ->name('tasks.update')
     ->where('id', '[0-9]+');
+Route::delete('/delete/{id}', [TaskController::class, 'destroy'])
+    ->name('tasks.delete')
+    ->where('id', '[0-9]+');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

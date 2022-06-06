@@ -47,13 +47,31 @@
         @foreach ($tasks as $task)
         <tr>
             <td>{{ $task->name }}</td>
-            <td>
+            <td class="flex">
                 <a href="{{ route('tasks.show', ['id' => $task->id]) }}">詳細</a>
                 <a href="{{ route('tasks.edit', ['id' => $task->id]) }}">編集</a>
-                <a href="">削除</a>
+                <form action="{{ route('tasks.delete', ['id' => $task->id]) }}" method="post" id="delete_post">
+                    @method('delete')
+                    @csrf
+                    <button>削除</button>
+                </form>
             </td>
         </tr>
         @endforeach
     </table>
 </div>
+<script>
+    'use strict';
+    {
+        document.getElementById('delete_post').addEventListener('submit', e => {
+            e.preventDefault();
+
+            if (!confirm('本当に削除してもよいですか？')) {
+                return;
+            }
+
+            e.target.submit();
+        });
+    }
+</script>
 </x-guest-layout>
